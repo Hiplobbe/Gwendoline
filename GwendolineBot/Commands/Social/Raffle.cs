@@ -126,7 +126,7 @@ namespace GwendolineBot.Commands.Social
 
         private bool ValidateRaffleRight()
         {
-            if(Context.User.Id == 249206141177823242 || DateTime.Now > lastDraw.AddMinutes(5))
+            if(Context.User.Id == Convert.ToUInt64(Program.AppConfig["AdminId"]) || DateTime.Now > lastDraw.AddMinutes(5))
             {
                 return true;
             }
