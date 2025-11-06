@@ -12,6 +12,7 @@ namespace GwendolineBot
     {
         private static Dictionary<string, Color> ModuleColor = new Dictionary<string, Color>
         {
+            {"AI", Color.DarkOrange},
             {"Admin", Color.Blue},
             {"Audio", Color.DarkBlue},
             {"CocktailDB", Color.DarkMagenta},
