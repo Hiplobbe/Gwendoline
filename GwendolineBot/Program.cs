@@ -87,13 +87,13 @@ namespace GwendolineBot
         {
             XmlDocument log4netConfig = new XmlDocument();
 
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            if(File.Exists("log4net.config"))
             {
-                log4netConfig.Load(File.OpenRead("publish/log4net.config"));
+                log4netConfig.Load(File.OpenRead("log4net.config"));
             }
             else
             {
-                log4netConfig.Load(File.OpenRead("log4net.config"));
+                log4netConfig.Load(File.OpenRead("publish/log4net.config"));
             }
             
             var repo = log4net.LogManager.CreateRepository(Assembly.GetEntryAssembly(),

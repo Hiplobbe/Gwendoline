@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ApplicationIcon>Properties\Gwendoline.ico</ApplicationIcon>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -36,7 +36,7 @@
 
   <ItemGroup>
     <Folder Include="Commands\Lol\" />
-    <Folder Include="Dependencies\" />
+    <Folder Include="Dependencies\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,7 +52,8 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)GwendolineBot\Dependencies\*.dll&quot; &quot;$(TargetDir)&quot; /R /Y" />
+      <Exec Command="cp -r &quot;$(SolutionDir)GwendolineBot/Dependencies/.&quot; &quot;$(TargetDir)&quot;" />
+<!--    <Exec Command="xcopy &quot;$(SolutionDir)GwendolineBot/Dependencies/*.dll&quot; &quot;$(TargetDir)&quot; /R /Y" />-->
   </Target>
 
 </Project>
