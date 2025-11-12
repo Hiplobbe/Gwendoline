@@ -24,19 +24,33 @@ public class AI: ModuleBase<SocketCommandContext>
     public async Task Message([Remainder] string message)
     {
         AIRequest request = new AIRequest(message);
-        
-        _log.Info($"User {Context.User.Username} send and AI message: {message}");
-        HttpResponseMessage response = await GetResponse(_clientUrl, request);
 
-        if (response.IsSuccessStatusCode)
+        try
         {
-            MistralResponse returnMessage = JsonConvert.DeserializeObject<MistralResponse>(response.Content.ReadAsStringAsync().Result);
-            
-            if (returnMessage.Choices.Length > 0)
+            _log.Info($"User {Context.User.Username} send and AI message: {message}");
+            HttpResponseMessage response = await GetResponse(_clientUrl, request);
+
+            if (response.IsSuccessStatusCode)
             {
-                _log.Info($"Got response: {returnMessage.Choices[0].Message.Content}");
-                Helper.StandardEmbed("AI", "AI", returnMessage.Choices[0].Message.Content, Context);
+                MistralResponse returnMessage =
+                    JsonConvert.DeserializeObject<MistralResponse>(response.Content.ReadAsStringAsync().Result);
+
+                if (returnMessage.Choices.Length > 0)
+                {
+                    _log.Info($"Got response: {returnMessage.Choices[0].Message.Content}");
+                    Helper.StandardEmbed("AI", "AI", returnMessage.Choices[0].Message.Content, Context);
+                }
             }
+            else
+            {
+                _log.Error($"Unable to get a response from AI: {response.StatusCode + " " + response.Content}");
+                Helper.StandardEmbed("AI", "AI", "Unable to contact AI API.", Context);
+            }
+        }
+        catch (Exception e)
+        {
+            _log.Error($"Unable to get a response from AI: {e.Message}");
+            Helper.StandardEmbed("AI", "AI", "Unable to contact AI API.", Context);
         }
     }
     
